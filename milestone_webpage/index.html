@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CS 184 Final Project</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="page">
+<header>
+    <div class="course">CS 184 · COMPUTER GRAPHICS · FINAL PROJECT</div>
+    <h1>BEARS: Believable Environment-Aware Reality Simulation</h1>
+    <p class="authors">Ronak Sinha · Nicole Phan · Jason Wang · Erica Liu</p>
+    <p class="summary">We have reconstructed indoor geometry and camera views, estimate scene illumination, and rendered light and shadows onto an animated character for a more convincing composite. Remaining work to be done revolves around making the scenes more realistic and considering more complex lighting situations with many light sources.</p>
+</header>
+
+<section class="results">
+    <div class="section-title">Preliminary Results</div>
+    <p>Across four held-out scenes, our rendering pipeline improves over the ARKit-style baseline in shadow-region FLIP and creature LPIPS. Lower values indicate closer agreement with path-traced ground truth.</p>
+    <div class="metrics">
+        <div>
+            <strong>0.104</strong>
+            <span>Shadow-region FLIP <small>Baseline: 0.169</small></span>
+        </div>
+        <div>
+            <strong>0.142</strong>
+            <span>Creature LPIPS <small>Baseline: 0.309</small></span>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="section-title">1 · Procedural Synthetic Test Bed</div>
+    <p>We generated eight repeatable indoor scenes: four lighting/material types, each with development and held-out test variants. Fixed seeds determine room dimensions, furniture, placement zones, floor materials, and light positions. Scenes are built and rendered through our Blender pipeline.</p>
+    <div class="scenes">
+        <figure>
+            <img src="assets/daylight.png" alt="Daylight scene">
+            <figcaption><b>Daylight</b> · Window light and sun patch</figcaption>
+        </figure>
+        <figure>
+            <img src="assets/tungsten.png" alt="Tungsten scene">
+            <figcaption><b>Tungsten</b> · Warm mixed fixtures</figcaption>
+        </figure>
+        <figure>
+            <img src="assets/hardlight.png" alt="Hardlight scene">
+            <figcaption><b>Hardlight</b> · Crisp shadows from a bare bulb</figcaption>
+        </figure>
+        <figure>
+            <img src="assets/glossy.png" alt="Glossy scene">
+            <figcaption><b>Glossy</b> · Reflective tile and specular highlights</figcaption>
+        </figure>
+    </div>
+</section>
+
+<section>
+    <div class="section-title">2 · Room Reconstruction &amp; Camera Matching</div>
+    <p>Using supplied camera poses, we align simulated LiDAR depth from multiple views to reconstruct a 600,000-triangle room mesh. We render from tracked viewpoints and fit tone mapping, exposure, and white balance to better match the capture.</p>
+    <div class="compare">
+        <figure>
+            <img src="assets/input_view.png" alt="Simulated input view">
+            <figcaption>Simulated input view</figcaption>
+        </figure>
+        <figure>
+            <img src="assets/reconstructed_room.png" alt="Reconstructed room">
+            <figcaption>Reconstructed room (wall removed)</figcaption>
+        </figure>
+    </div>
+</section>
+
+<section>
+    <div class="section-title">3–4 · Estimating &amp; Rendering Light</div>
+    <p>We compare image-region radiance to the room’s median to find bright candidates. Using camera poses, candidates are checked across views for consistent evidence of a source. Depending on the region shape, we estimate a rectangular area light or a small circular source. Sunlight is handled separately: bright floor patches are confirmed across views, and strength and direction are estimated from lit versus nearby shaded floor. Estimated sources are then rendered in Blender to illuminate the room and character.</p>
+</section>
+
+<section class="composite">
+    <div class="section-title">Final Composite</div>
+    <img src="assets/final_composite.png" alt="Creature composited into a reconstructed room with lighting and shadows">
+    <p>Lighting and shadows are integrated onto the animated character within the reconstructed scene.</p>
+</section>
+
+<footer>
+    Reproducible scenes · Camera-aligned geometry · Cross-view light estimation
+</footer>
+</main>
+</body>
+</html>
